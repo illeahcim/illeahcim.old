@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Staff Only
+    </title>
+    <style>
+        body {
+            background-color: lightblue;
+            padding: 30px;
+            margin: 0px;
+        }
+
+        .pageT {
+            font-size: 30pt;
+        }
+    </style>
+    <script>
+        function checkPassword() {
+            var password = document.getElementById("passwordBox");
+            var passwordText = password.value;
+
+            if (passwordText === "hello") {
+                return true;
+            }
+
+            alert("Access Denied! Incorrect password");
+            return false;
+        }
+
+    </script>
+</head>
+
+<body>
+
+    <p class="pageT " style="text-align: center; ">Staff Log In</p>
+
+    <p style="text-align: center;">
+        Please enter the password to view this website.
+    </p>
+
+    <p style="text-align: center;">
+        Password: <input id="passwordBox" type="password">
+    </p>
+
+    <a href="./codingSF.html" onclick="return checkPassword();" style="position: absolute; right: 515px;">
+        Click here to submit and view website
+    </a>
+
+</body>
+
+</html>

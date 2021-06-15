@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Start Ordering
+    </title>
+    <style>
+        input[type="button"] {
+            background-color: pink;
+            border: 1px solid black;
+        }
+
+    </style>
+    <script>
+        function addItem() {
+            var newItem = document.createElement("div");
+            newItem.innerHTML = document.getElementById("textBox").value;
+            newItem.onclick = removeItem;
+            document.getElementById("orders").appendChild(newItem);
+            saveList();
+        }
+        function removeItem() {
+            document.getElementById("orders").removeChild(this);
+            saveList();
+        }
+        function saveList() {
+            localStorage.storedList = document.getElementById("con").innerHTML;
+        }
+        function loadList() {
+            document.getElementById("con").innerHTML = localStorage.storedList;
+            for (var i = 0; i < con.children.length; i++) {
+                con.children[i].onclick = removeItem;
+            }
+        }
+
+    </script>
+</head>
+
+<body>
+    <p
+        style="text-align: center; font-size: 30pt; padding: 36px; margin-left: 175px; margin-right: 175px; margin-bottom: 20px; background-color: lightblue;">
+        Adding Orders</p>
+    <br />
+
+    <div style="font-size: 13pt; height: 600px; width: 880px; background-color: lightgreen; padding: 10px; margin-left: 175px; margin-right: 175px; margin-bottom: 20px; text-align: center;">
+        <p style="font-size: 25pt;">
+            Ice cream orders
+        </p>
+        <input id="textBox" type="text" value="Type here to add order">
+        <br />
+        <input onclick="addItem()" type="button" value="Add Order" style=" margin-top: 8px; padding: 3px;">
+
+        <div id="orders"></div>
+
+        <script>
+
+            if (localStorage.storedList) {
+                loadList();
+            }
+        </script>
+    </div>
+
+
+</body>
+
+</html>

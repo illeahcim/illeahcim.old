@@ -21,15 +21,6 @@
       padding: 10px;
       margin: 10px;
       float: left;
-      display: none;
-    }
-
-    .cardFlipped {
-      background-color: blue;
-      border: 4px solid gold;
-    }
-
-    .visible {
       display: block;
     }
 
@@ -37,11 +28,21 @@
       background: url(resources/Murderer.jpg);
       background-size: cover;
     }
+
+    .cardFlipped {
+      background: none;
+      background-color: blue;
+      border: 4px solid gold;
+    }
+
+    .visible {
+      display: block;
+    }
   </style>
   <script>
     // var flipped = false;
-    const flipped = []
-    const murdererIndex = -1;
+    let visibleFlags = [] // true: visible, false: hidden
+    let murdererIndex = -1;
 
     function startGame() {
       // Create cards
@@ -49,49 +50,57 @@
 
       setTimeout(() => {
         // Flip all the cards
-        // flipped = true
-
+        flipAllCards()
       }, 3000);
     }
 
-    var loops = 0;
-    var gameScore = 0;
-    function gameLoop() {
-      loops++;
-      flipped = !flipped;
-      createCards();
-      if (loops < 12) {
-        setTimeout(gameLoop, 3000);
-      }
-      else {
-        alert("You earned " + gameScore + " points");
-      }
-    }
+    // var loops = 0;
+    // var gameScore = 0;
+    // function gameLoop() {
+    //   loops++;
+    //   visibleFlags = !visibleFlags;
+    //   createCards();
+    //   if (loops < 12) {
+    //     setTimeout(gameLoop, 3000);
+    //   }
+    //   else {
+    //     alert("You earned " + gameScore + " points");
+    //   }
+    // }
 
     // Flipping one card
-    function flipCard(card, flipped) {
-      if (flipped) {
-        card.className = "character cardFlipped"
+    function flipCard(index) {
+      const board = document.getElementById("board")
+
+      const card = board.children[index]
+
+      visibleFlags[index] = !visibleFlags[index]
+
+      card.className = " character"
+
+      if (index === murdererIndex) {
+        card.className += " murderer"
       }
-      else if (i === murdererIndex) {
-        card.className = "character visible murderer"
-      }
-      else {
-        card.className = "character visible"
+
+      if (!visibleFlags[index]) {
+        card.className += " cardFlipped"
       }
     }
 
     function flipAllCards() {
-      const board = document.getElementById("board")
-
       for (let i = 0; i < board.children.length; i++) {
-        flipped[i] = !flipped[i]
-        flipCard(board.children[i], flipped[i])
+        flipCard(i)
       }
     }
 
     function createCards(numOfCards) {
       const board = document.getElementById("board");
+
+      visibleFlags = []
+
+      while (board.firstChild) {
+        board.removeChild(board.firstChild)
+      }
 
       for (let i = 0; i < numOfCards; i++) {
         const card = document.createElement("div")
@@ -106,7 +115,7 @@
         // }
 
         board.appendChild(card)
-        flipped.push(false)
+        visibleFlags.push(true)
       }
 
       murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;

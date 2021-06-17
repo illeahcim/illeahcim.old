@@ -95,6 +95,9 @@
         function YW() {
             alert("You win!");
         }
+        function YL() {
+            alert("You lost!");
+        }
         function createCards(numOfCards) {
             const board = document.getElementById("board");
 
@@ -107,11 +110,11 @@
             for (let i = 0; i < numOfCards; i++) {
                 const card = document.createElement("div");
                 card.className = "character visible";
-
-                 var pressed = 0;
-                 card.onclick = function () {
-                 
-                 }
+                var pressed = 0;
+                card.onclick = function () {
+                    flipCard(i);
+                    setTimeout(YL, 1500);
+                }
 
                 board.appendChild(card)
                 visibleFlags.push(true)

@@ -40,35 +40,20 @@
         }
     </style>
     <script>
-        // var flipped = false;
-        let visibleFlags = [] // true: visible, false: hidden
+        let visibleFlags = [];
         let murdererIndex = -1;
+        let allowUserInteraction = false;
+        let userTries = 3;
 
         function startGame() {
-            // Create cards
             createCards(6);
 
             setTimeout(() => {
-                // Flip all the cards
+                allowUserInteraction = true
                 flipAllCards()
             }, 3000);
         }
 
-        // var loops = 0;
-        // var gameScore = 0;
-        // function gameLoop() {
-        //   loops++;
-        //   visibleFlags = !visibleFlags;
-        //   createCards();
-        //   if (loops < 12) {
-        //     setTimeout(gameLoop, 3000);
-        //   }
-        //   else {
-        //     alert("You earned " + gameScore + " points");
-        //   }
-        // }
-
-        // Flipping one card
         function flipCard(index) {
             const board = document.getElementById("board")
 
@@ -76,7 +61,7 @@
 
             visibleFlags[index] = !visibleFlags[index]
 
-            card.className = " character"
+            card.className = "character"
 
             if (index === murdererIndex) {
                 card.className += " murderer"
@@ -92,12 +77,15 @@
                 flipCard(i)
             }
         }
+
         function YW() {
             alert("You win!");
         }
+
         function YL() {
             alert("You lost!");
         }
+
         function createCards(numOfCards) {
             const board = document.getElementById("board");
 
@@ -112,19 +100,26 @@
                 card.className = "character visible";
                 var pressed = 0;
                 card.onclick = function () {
-                    flipCard(i);
-                    setTimeout(YL, 1500);
+                    if (allowUserInteraction && userTries > 0) {
+                        flipCard(i);
+                        userTries --; 
+                    }
+                    if (userTries === 0) {
+                        setTimeout(YL, 1500);
+                        userTries --;
+                    }
                 }
-
                 board.appendChild(card)
                 visibleFlags.push(true)
             }
 
             murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
-             var clicked = false;
-             board.children[murdererIndex].onclick = function () {
-                flipCard(murdererIndex);
-                setTimeout(YW, 1500);
+            var clicked = false;
+            board.children[murdererIndex].onclick = function () {
+                if (allowUserInteraction) {
+                    flipCard(murdererIndex);
+                    setTimeout(YW, 1500);
+                }
             }
             board.children[murdererIndex].className = "character visible murderer"
         }

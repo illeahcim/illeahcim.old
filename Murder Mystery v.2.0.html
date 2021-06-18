@@ -51,7 +51,7 @@
       setTimeout(() => {
         allowUserInteraction = true
         flipAllCards()
-      }, 3000);
+      }, 1000);
     }
 
     function flipCard(index) {
@@ -116,9 +116,10 @@
       murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
       var clicked = false;
       board.children[murdererIndex].onclick = function () {
-        if (!visibleFlags[murdererIndex] && allowUserInteraction) {
+        if (!visibleFlags[murdererIndex] && allowUserInteraction && userTries > 0) {
           flipCard(murdererIndex);
           setTimeout(YW, 1500);
+          userTries = -1;
         }
       }
       board.children[murdererIndex].className = "character visible murderer"

@@ -102,7 +102,7 @@
                 card.onclick = function () {
                     if (allowUserInteraction && userTries > 0) {
                         flipCard(i);
-                        userTries --; 
+                        userTries --;
                     }
                     if (userTries === 0) {
                         setTimeout(YL, 1500);
@@ -119,6 +119,7 @@
                 if (allowUserInteraction) {
                     flipCard(murdererIndex);
                     setTimeout(YW, 1500);
+                    userTries -= 10;
                 }
             }
             board.children[murdererIndex].className = "character visible murderer"

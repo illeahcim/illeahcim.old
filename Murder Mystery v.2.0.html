@@ -2,136 +2,135 @@
 <html>
 
 <head>
-    <title>
-        Murder Mystery
-    </title>
-    <style>
-        #board {
-            background-color: rgb(119, 201, 173);
-            background-size: cover;
-            height: 650px;
-            width: 1000px;
+  <title>
+    Murder Mystery
+  </title>
+  <style>
+    #board {
+      background-color: rgb(119, 201, 173);
+      background-size: cover;
+      height: 650px;
+      width: 1000px;
+    }
+
+    .character {
+      background: url(resources/Innocent.jpg);
+      background-size: cover;
+      width: 120px;
+      height: 120px;
+      padding: 10px;
+      margin: 10px;
+      float: left;
+      display: block;
+    }
+
+    .murderer {
+      background: url(resources/Murderer.jpg);
+      background-size: cover;
+    }
+
+    .cardFlipped {
+      background: none;
+      background-color: blue;
+      border: 4px solid gold;
+    }
+
+    .visible {
+      display: block;
+    }
+  </style>
+  <script>
+    let visibleFlags = [];
+    let murdererIndex = -1;
+    let allowUserInteraction = false;
+    let userTries = 3;
+
+    function startGame() {
+      createCards(6);
+
+      setTimeout(() => {
+        allowUserInteraction = true
+        flipAllCards()
+      }, 3000);
+    }
+
+    function flipCard(index) {
+      const board = document.getElementById("board")
+
+      const card = board.children[index]
+
+      visibleFlags[index] = !visibleFlags[index]
+
+      card.className = "character"
+
+      if (index === murdererIndex) {
+        card.className += " murderer"
+      }
+
+      if (!visibleFlags[index]) {
+        card.className += " cardFlipped"
+      }
+    }
+
+    function flipAllCards() {
+      for (let i = 0; i < board.children.length; i++) {
+        flipCard(i)
+      }
+    }
+
+    function YW() {
+      alert("You win!");
+    }
+
+    function YL() {
+      alert("You lose!");
+    }
+
+    function createCards(numOfCards) {
+      const board = document.getElementById("board");
+
+      visibleFlags = []
+
+      while (board.firstChild) {
+        board.removeChild(board.firstChild)
+      }
+
+      for (let i = 0; i < numOfCards; i++) {
+        const card = document.createElement("div");
+        card.className = "character visible";
+        var pressed = 0;
+        card.onclick = function () {
+          if (!visibleFlags[i] && allowUserInteraction && userTries > 0) {
+            flipCard(i);
+            userTries--;
+          }
+          if (userTries === 0) {
+            setTimeout(YL, 1500);
+            userTries--;
+          }
         }
+        board.appendChild(card)
+        visibleFlags.push(true)
+      }
 
-        .character {
-            background: url(resources/Innocent.jpg);
-            background-size: cover;
-            width: 120px;
-            height: 120px;
-            padding: 10px;
-            margin: 10px;
-            float: left;
-            display: block;
+      murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
+      var clicked = false;
+      board.children[murdererIndex].onclick = function () {
+        if (!visibleFlags[murdererIndex] && allowUserInteraction) {
+          flipCard(murdererIndex);
+          setTimeout(YW, 1500);
         }
-
-        .murderer {
-            background: url(resources/Murderer.jpg);
-            background-size: cover;
-        }
-
-        .cardFlipped {
-            background: none;
-            background-color: blue;
-            border: 4px solid gold;
-        }
-
-        .visible {
-            display: block;
-        }
-    </style>
-    <script>
-        let visibleFlags = [];
-        let murdererIndex = -1;
-        let allowUserInteraction = false;
-        let userTries = 3;
-
-        function startGame() {
-            createCards(6);
-
-            setTimeout(() => {
-                allowUserInteraction = true
-                flipAllCards()
-            }, 3000);
-        }
-
-        function flipCard(index) {
-            const board = document.getElementById("board")
-
-            const card = board.children[index]
-
-            visibleFlags[index] = !visibleFlags[index]
-
-            card.className = "character"
-
-            if (index === murdererIndex) {
-                card.className += " murderer"
-            }
-
-            if (!visibleFlags[index]) {
-                card.className += " cardFlipped"
-            }
-        }
-
-        function flipAllCards() {
-            for (let i = 0; i < board.children.length; i++) {
-                flipCard(i)
-            }
-        }
-
-        function YW() {
-            alert("You win!");
-        }
-
-        function YL() {
-            alert("You lost!");
-        }
-
-        function createCards(numOfCards) {
-            const board = document.getElementById("board");
-
-            visibleFlags = []
-
-            while (board.firstChild) {
-                board.removeChild(board.firstChild)
-            }
-
-            for (let i = 0; i < numOfCards; i++) {
-                const card = document.createElement("div");
-                card.className = "character visible";
-                var pressed = 0;
-                card.onclick = function () {
-                    if (allowUserInteraction && userTries > 0) {
-                        flipCard(i);
-                        userTries --;
-                    }
-                    if (userTries === 0) {
-                        setTimeout(YL, 1500);
-                        userTries --;
-                    }
-                }
-                board.appendChild(card)
-                visibleFlags.push(true)
-            }
-
-            murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
-            var clicked = false;
-            board.children[murdererIndex].onclick = function () {
-                if (allowUserInteraction) {
-                    flipCard(murdererIndex);
-                    setTimeout(YW, 1500);
-                    userTries -= 10;
-                }
-            }
-            board.children[murdererIndex].className = "character visible murderer"
-        }
-    </script>
+      }
+      board.children[murdererIndex].className = "character visible murderer"
+    }
+  </script>
 </head>
 
 <body>
-    <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
-    <a href="Rules/Rulesv2.html"
-        style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
-    <div id="board" />
+  <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
+  <a href="Rules/Rulesv2.html"
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
+  <div id="board" />
 </body>
 
 </html>

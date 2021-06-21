@@ -34,10 +34,6 @@
       background-color: blue;
       border: 4px solid gold;
     }
-
-    .visible {
-      display: block;
-    }
   </style>
   <script>
     let visibleFlags = [];
@@ -77,7 +73,9 @@
         flipCard(i)
       }
     }
-
+    function reload() {
+        userTries = 3;
+    }
     function YW() {
       alert("You win!");
     }
@@ -102,6 +100,9 @@
         card.onclick = function () {
           if (!visibleFlags[i] && allowUserInteraction && userTries > 0) {
             flipCard(i);
+            setTimeout(() => {
+              flipCard(i);
+            }, 1500);
             userTries--;
           }
           if (userTries === 0) {
@@ -128,7 +129,7 @@
 </head>
 
 <body>
-  <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
+  <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame(); reload();">
   <a href="Rules/Rulesv2.html"
     style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
   <div id="board" />

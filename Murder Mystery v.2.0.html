@@ -14,12 +14,17 @@
       width: 1250px;
       height: 500px;
     }
+
     #container {
-        margin: 0 auto;
-        border: 2px solid black;
-        width: 1250px;
-        height: calc(85.7vh - 40px);
+      margin: 0 auto;
+      background-color: transparent;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 1250px;
+      height: 500px;
     }
+
     .card-container {
       flex-shrink: 0;
       width: 140px;
@@ -65,7 +70,7 @@
       transform: rotateY(180deg);
     }
   </style>
-   <script src="fireworks.min.js"></script>
+  <script src="fireworks.min.js"></script>
   <script>
     let visibleFlags = [];
     let murdererIndex = -1;
@@ -104,11 +109,10 @@
       userTries = 3;
     }
     function YW() {
-      const container = document.getElementById('container')
-      //const spawn = document.getElementById('spawn')
-      //const kill = document.getElementById('kill')
-      //const stop = document.getElementById('stop')
-      const start = document.getElementById('start')
+      const parent = document.getElementById('parent')
+      const container = document.createElement('div')
+      container.id = "container"
+      parent.appendChild(container)
       const width = container.clientWidth
       const fireworks = new Fireworks(container, {
         maxRockets: 15, // max # of rockets to spawn
@@ -128,32 +132,15 @@
         rocketInitialPoint: width * 0.5,
       })
 
-      startFireworks()
+      fireworks.start()
 
       document.addEventListener(
         'keydown',
         (e) => e.which === 27 && stopFireworks()
       )
-      //spawn.addEventListener('click', () => fireworks.fire())
-      //kill.addEventListener('click', () => stopFireworks(true))
-      //stop.addEventListener('click', () => stopFireworks(false))
-      start.addEventListener('click', () => startFireworks())
+
       window.addEventListener('resize', () => fireworks.resetSize())
 
-      /*function stopFireworks(force) {
-        kill.style.display = 'none'
-        stop.style.display = 'none'
-        start.style.display = ''
-        if (force) fireworks.kill()
-        else fireworks.stop()
-      }*/
-
-      function startFireworks() {
-        //kill.style.display = ''
-        //stop.style.display = ''
-        start.style.display = 'none'
-        fireworks.start()
-      }
       alert("You win!");
     }
 
@@ -161,7 +148,7 @@
       alert("You lose!");
     }
 
-  function createCards(numOfCards) {
+    function createCards(numOfCards) {
       const board = document.getElementById("board");
 
       visibleFlags = []
@@ -196,7 +183,7 @@
               flipCard(murdererIndex);
               setTimeout(YW, 1500);
               userTries = -1;
-              card.id = start;
+              // card.id = start;
             }
           }
         }
@@ -224,12 +211,12 @@
 </head>
 
 <body>
-  
-    <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
-    <a href="Rules/Rulesv2.html"
-      style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
-      <div id="container">
-      <div id="board" />
+
+  <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
+  <a href="Rules/Rulesv2.html"
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
+  <div id="parent" style="position: relative;">
+    <div id="board"></div>
   </div>
 </body>
 

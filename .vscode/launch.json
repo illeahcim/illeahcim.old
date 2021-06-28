@@ -8,7 +8,7 @@
             "type": "pwa-chrome",
             "request": "launch",
             "name": "Open Murder Mystery v.2.0.html",
-            "file": "/Users/michael/dev/illeahcim.github.io/Murder Mystery v.2.0.html"
+            "file": "${workspaceFolder}/Murder Mystery v.2.0.html"
         }
     ]
 }

@@ -108,6 +108,7 @@
     function reload() {
       userTries = 3;
     }
+
     function YW() {
       const parent = document.getElementById('parent')
       const container = document.createElement('div')
@@ -142,7 +143,9 @@
       window.addEventListener('resize', () => fireworks.resetSize())
 
       alert("You win!");
+
     }
+
 
     function YL() {
       alert("You lose!");
@@ -183,7 +186,6 @@
               flipCard(murdererIndex);
               setTimeout(YW, 1500);
               userTries = -1;
-              // card.id = start;
             }
           }
         }

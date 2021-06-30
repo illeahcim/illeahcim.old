@@ -77,16 +77,22 @@
     let allowUserInteraction = false;
     let userTries = 3;
     let fireworks;
-    let fireworksContainer = document.createElement("div");
+    let fireworksContainer;
 
     function startGame() {
       if (fireworks)
         fireworks.stop()
-      
+
       if (fireworksContainer) {
         const parent = document.getElementById('parent')
         parent.removeChild(fireworksContainer)
+        fireworksContainer = undefined
       }
+
+      visibleFlags = [];
+      murdererIndex = -1;
+      userTries = 3;
+      allowUserInteraction = false;
 
       createCards(12);
 
@@ -121,11 +127,15 @@
 
     function YW() {
       const parent = document.getElementById('parent')
-      parent.append(fireworksContainer);
-      
-      fireworksContainer = document.createElement('div')
+      if (fireworksContainer) {
+        parent.removeChild(fireworksContainer)
+        fireworksContainer = undefined
+      }
+      fireworksContainer = document.createElement("div")
       fireworksContainer.id = "container"
-      
+
+      parent.append(fireworksContainer);
+
       const width = fireworksContainer.clientWidth
       fireworks = new Fireworks(fireworksContainer, {
         maxRockets: 15, // max # of rockets to spawn
@@ -144,7 +154,7 @@
         // will be apended to provided cannons
         rocketInitialPoint: width * 0.5,
       })
-  
+
       fireworks.start()
 
       window.addEventListener('resize', () => fireworks.resetSize())

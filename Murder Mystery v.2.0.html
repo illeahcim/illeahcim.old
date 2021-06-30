@@ -76,8 +76,18 @@
     let murdererIndex = -1;
     let allowUserInteraction = false;
     let userTries = 3;
+    let fireworks;
+    let fireworksContainer = document.createElement("div");
 
     function startGame() {
+      if (fireworks)
+        fireworks.stop()
+      
+      if (fireworksContainer) {
+        const parent = document.getElementById('parent')
+        parent.removeChild(fireworksContainer)
+      }
+
       createCards(12);
 
       setTimeout(() => {
@@ -111,11 +121,13 @@
 
     function YW() {
       const parent = document.getElementById('parent')
-      const container = document.createElement('div')
-      container.id = "container"
-      parent.appendChild(container)
-      const width = container.clientWidth
-      const fireworks = new Fireworks(container, {
+      parent.append(fireworksContainer);
+      
+      fireworksContainer = document.createElement('div')
+      fireworksContainer.id = "container"
+      
+      const width = fireworksContainer.clientWidth
+      fireworks = new Fireworks(fireworksContainer, {
         maxRockets: 15, // max # of rockets to spawn
         rocketSpawnInterval: 50, // millisends to check if new rockets should spawn
         numParticles: 200, // number of particles to spawn when rocket explodes (+0-10)
@@ -132,13 +144,8 @@
         // will be apended to provided cannons
         rocketInitialPoint: width * 0.5,
       })
-
+  
       fireworks.start()
-
-      document.addEventListener(
-        'keydown',
-        (e) => e.which === 27 && stopFireworks()
-      )
 
       window.addEventListener('resize', () => fireworks.resetSize())
 

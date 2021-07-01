@@ -12,7 +12,7 @@
       background-color: rgb(119, 201, 173);
       background-size: cover;
       width: 1250px;
-      height: 500px;
+      height: 575px;
     }
 
     #container {
@@ -22,7 +22,7 @@
       top: 0;
       left: 0;
       width: 1250px;
-      height: 500px;
+      height: 575px;
     }
 
     .card-container {
@@ -70,10 +70,13 @@
       transform: rotateY(180deg);
     }
   </style>
+  </script>
   <script src="fireworks.min.js"></script>
+  <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
   <script>
+
     let visibleFlags = [];
-    let murdererIndex = -1;
+    let murdererIndex = [];
     let allowUserInteraction = false;
     let userTries = 3;
     let fireworks;
@@ -90,11 +93,11 @@
       }
 
       visibleFlags = [];
-      murdererIndex = -1;
+      murdererIndex = [] - 1;
       userTries = 3;
       allowUserInteraction = false;
 
-      createCards(12);
+      createCards(18);
 
       setTimeout(() => {
         allowUserInteraction = true
@@ -124,15 +127,10 @@
     function reload() {
       userTries = 3;
     }
-
     function YW() {
       const parent = document.getElementById('parent')
-      if (fireworksContainer) {
-        parent.removeChild(fireworksContainer)
-        fireworksContainer = undefined
-      }
       fireworksContainer = document.createElement("div")
-      fireworksContainer.id = "container"
+      fireworksContainer.id = "container";
 
       parent.append(fireworksContainer);
 
@@ -158,14 +156,12 @@
       fireworks.start()
 
       window.addEventListener('resize', () => fireworks.resetSize())
-
-      alert("You win!");
-
+      swal("You win!", "", "success");
     }
 
 
     function YL() {
-      alert("You lose!");
+      swal("You lose!", "", "error");
     }
 
     function createCards(numOfCards) {
@@ -234,6 +230,8 @@
   <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
   <a href="Rules/Rulesv2.html"
     style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
+    <a href="Rules/Rulesv2.html"
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Settings</a>
   <div id="parent" style="position: relative;">
     <div id="board"></div>
   </div>

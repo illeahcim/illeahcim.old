@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+
+    </title>
+    <style>
+        #dbox {
+            /* (A1) CENTER ON PAGE */
+            position: fixed;
+            top: 40%;
+            left: 50%;
+            transform: translate(-50%);
+            /* (A2) DIMENSIONS */
+            width: 400px;
+            padding: 10px;
+            /* (A3) COLORS */
+            color: #333;
+            border: 1px solid #c52828;
+            background: #ffebe1;
+            /* (A4) HIDE */
+            display: none;
+        }
+    </style>
+
+    <script>
+
+        // (B) TOGGLE DIALOG BOX
+        function dbox(msg) {
+            // (B1) GET ELEMENTS
+            var box = document.getElementById("dbox"),
+                boxm = document.getElementById("dboxm");
+
+            // (B2) SHOW/HIDE
+            boxm.innerHTML = (msg === undefined) ? "" : msg;
+            box.style.display = (msg === undefined) ? "none" : "block";
+        }
+    </script>
+
+<body>
+    <!-- (C) HTML DIALOG BOX -->
+    <div id="dbox">
+        <div id="dboxm">Test</div>
+        <input type="button" value="X" onclick="dbox()" style="position: absolute; top: 10px; right: 10px;"/>
+    </div>
+
+    <!-- (D) TEST BUTTON -->
+    <input type="button" value="Dialog Box" onclick="dbox('Message')" />
+</body>
+
+</html>

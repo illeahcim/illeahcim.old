@@ -2,10 +2,18 @@
 <html>
 
 <head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
   <title>
     Murder Mystery
   </title>
   <style>
+   .HTF {
+      width: 200px;
+      border: 2px solid black;
+    }
     #board {
       display: flex;
       flex-wrap: wrap;
@@ -81,8 +89,14 @@
     let userTries = 3;
     let fireworks;
     let fireworksContainer;
+    //let numOfCharacters = localStorage.getItem("setNumOfCharacters")
+
+    function readUserSettings() {
+      userTries = localStorage.getItem("setTries")
+    }
 
     function startGame() {
+      readUserSettings()
       if (fireworks)
         fireworks.stop()
 
@@ -94,15 +108,17 @@
 
       visibleFlags = [];
       murdererIndex = [] - 1;
-      userTries = 3;
       allowUserInteraction = false;
 
-      createCards(18);
+      document.getElementById("hello").innerHTML = userTries;
+
+      createCards(12/*numOfCharacters*/);
+
 
       setTimeout(() => {
         allowUserInteraction = true
         flipAllCards()
-      }, 1000);
+      }, 100)
     }
 
     function flipCard(index) {
@@ -124,9 +140,7 @@
         flipCard(i)
       }
     }
-    function reload() {
-      userTries = 3;
-    }
+
     function YW() {
       const parent = document.getElementById('parent')
       fireworksContainer = document.createElement("div")
@@ -195,6 +209,7 @@
         if (i === murdererIndex) {
           cardFront.className = "card-face murderer";
           card.onclick = function () {
+            
             if (!visibleFlags[murdererIndex] && allowUserInteraction && userTries > 0) {
               flipCard(murdererIndex);
               setTimeout(YW, 1500);
@@ -204,6 +219,8 @@
         }
         else {
           card.onclick = function () {
+            
+
             if (!visibleFlags[i] && allowUserInteraction && userTries > 0) {
               flipCard(i);
               setTimeout(() => {
@@ -211,10 +228,14 @@
               }, 1500);
               userTries--;
             }
+            document.getElementById("hello").innerHTML = userTries;
+            
             if (userTries === 0) {
               setTimeout(YL, 1500);
               userTries--;
             }
+
+           
           }
         }
 
@@ -222,18 +243,29 @@
         visibleFlags.push(true)
       }
     }
+
+
   </script>
 </head>
 
 <body>
-
-  <input style="margin-bottom: 10px;" type="button" value="Play" onclick="startGame()">
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+    integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+    crossorigin="anonymous"></script>
+  <button type="button" style="margin-bottom: 10px; width: 75px; position: relative; left: 600px; top: 4px;"
+    type="button" onclick="startGame()" class="btn-sm">Play</button>
   <a href="Rules/Rulesv2.html"
-    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Rules</a>
-    <a href="Rules/Rulesv2.html"
-    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black;">Settings</a>
-  <div id="parent" style="position: relative;">
-    <div id="board"></div>
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black; position: relative; right: 70px;">Rules</a>
+  <a href="settings.html"
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black; position: relative; right: 65px;">Settings</a>
+  <a href="help.html"
+    style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black; position: relative; right: 60px;">Help</a>
+          
+    <div class="HTF" style="float: right; text-align: center; position: relative; right: 20px;">
+      <p id="hello"></p>
+        </div>
+    <div id="parent" style="position: relative;">
+    <div id="board" style="position: relative; left: 10px;"></div>
   </div>
 </body>
 

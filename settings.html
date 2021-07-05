@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>
+        Settings
+    </title>
+    <style>
+        body {
+            text-align: center;
+        }
+    </style>
+    <script>
+        function save() {
+                let numberValue = document.getElementById("text0").value;
+                localStorage.setItem("setTries", numberValue);
+
+                /*let numberValue = document.getElementById("text1").value;
+                localStorage.setItem("setNumOfCharacters", numberValue);*/
+        }
+        function reset() {
+                let number = document.getElementById("text0").value = 3;
+        }
+    </script>
+</head>
+
+<body>
+
+    <h1>
+        ________________________________<br />
+        The Murder Mystery Settings
+        <br />
+        ________________________________
+        <br />
+    </h1>
+    <input type="number" min="1" max="10" style="position: absolute; left: 400px; width: 145px;" id="text0" value="3" oninput="validity.valid||(value='');">
+    <button onclick="save()" style="position: absolute; left: 553px;">Save</button>
+    <button onclick="reset()" style="position: absolute; left: 599px;">Reset</button>
+    <h3 style="position: absolute; right: 400px; top: 140px;">How many tries you get<h3>
+
+    <input type="number" min="6" style="position: absolute; left: 400px; bottom: 420px;" id="text1">
+    <button onclick="save()" style="position: absolute; left: 553px; bottom: 420px;">Save</button>
+    <h3 style="position: absolute; right: 400px; bottom: 400px;">How many characters you get</h3>
+</body>
+
+</html>

@@ -10,10 +10,11 @@
     Murder Mystery
   </title>
   <style>
-   .HTF {
+    .HTF {
       width: 200px;
       border: 2px solid black;
     }
+
     #board {
       display: flex;
       flex-wrap: wrap;
@@ -89,7 +90,7 @@
     let userTries = 3;
     let fireworks;
     let fireworksContainer;
-    //let numOfCharacters = localStorage.getItem("setNumOfCharacters")
+    let numOfCharacters = localStorage.getItem("setNumOfCharacters")
 
     function readUserSettings() {
       userTries = localStorage.getItem("setTries")
@@ -112,8 +113,7 @@
 
       document.getElementById("hello").innerHTML = userTries;
 
-      createCards(12/*numOfCharacters*/);
-
+      createCards(numOfCharacters);
 
       setTimeout(() => {
         allowUserInteraction = true
@@ -209,7 +209,7 @@
         if (i === murdererIndex) {
           cardFront.className = "card-face murderer";
           card.onclick = function () {
-            
+
             if (!visibleFlags[murdererIndex] && allowUserInteraction && userTries > 0) {
               flipCard(murdererIndex);
               setTimeout(YW, 1500);
@@ -219,7 +219,7 @@
         }
         else {
           card.onclick = function () {
-            
+
 
             if (!visibleFlags[i] && allowUserInteraction && userTries > 0) {
               flipCard(i);
@@ -229,13 +229,13 @@
               userTries--;
             }
             document.getElementById("hello").innerHTML = userTries;
-            
+
             if (userTries === 0) {
               setTimeout(YL, 1500);
               userTries--;
             }
 
-           
+
           }
         }
 
@@ -260,11 +260,11 @@
     style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black; position: relative; right: 65px;">Settings</a>
   <a href="help.html"
     style="border: 1px solid black;text-decoration: none; background-color: lightgray; color: black; position: relative; right: 60px;">Help</a>
-          
-    <div class="HTF" style="float: right; text-align: center; position: relative; right: 20px;">
-      <p id="hello">Number Of Tries You Have</p>
-        </div>
-    <div id="parent" style="position: relative;">
+
+  <div class="HTF" style="float: right; text-align: center; position: relative; right: 20px;">
+    <p id="hello">Number Of Tries You Have</p>
+  </div>
+  <div id="parent" style="position: relative;">
     <div id="board" style="position: relative; left: 10px;"></div>
   </div>
 </body>

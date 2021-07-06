@@ -11,18 +11,71 @@
             text-align: center;
         }
     </style>
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script>
         function saveTries() {
-                let numberValue = document.getElementById("text0").value;
-                localStorage.setItem("setTries", numberValue);
+            let numberValue = document.getElementById("text0").value;
+
+            if (numberValue > 10 || numberValue < 1) {
+                swal("Error! You can only put numbers between 1 and 10", "", "error")
+                return false;
+            }
+            localStorage.setItem("numTries", numberValue);
         }
+
         function saveNumOfCharacters() {
-                let numberValue = document.getElementById("text1").value;
-                localStorage.setItem("setNumOfCharacters", numberValue);
+            let numberValue = document.getElementById("text1").value;
+            if (numberValue > 18 || numberValue < 6) {
+                swal("Error! You can only put numbers between 6 and 18", "", "error")
+                return false;
+            }
+            localStorage.setItem("numOfCharacters", numberValue);
         }
         function reset() {
-                let number0 = document.getElementById("text0").value = 3;
-                let number1 = document.getElementById("text1").value = 12;
+            document.getElementById("text0").value = 3;
+            document.getElementById("text1").value = 12;
+            document.getElementById("text2").value = 1;
+
+            localStorage.setItem("numTries", 3);
+            localStorage.setItem("numOfCharacters", 12)
+            localStorage.setItem("numOfMurderers", 1)
+        }
+
+        window.onload = () => {
+            let numOfTries = localStorage.getItem("numTries");
+            if (numOfTries) {
+                document.getElementById("text0").value = parseInt(numOfTries);
+            }
+            else {
+                document.getElementById("text0").value = 3
+                localStorage.setItem("numTries", 3);
+            }
+
+            let numCharacters = localStorage.getItem("numOfCharacters");
+            if (numCharacters) {
+                document.getElementById("text1").value = parseInt(numCharacters);
+            }
+            else {
+                document.getElementById("text1").value = 12
+                localStorage.setItem("numOfCharacters", 12)
+            }
+
+            let numMurderers = localStorage.getItem("numOfMurderers");
+            if (numMurderers) {
+                document.getElementById("text2").value = parseInt(numMurderers);
+            }
+            else {
+                document.getElementById("text2").value = 1
+                localStorage.setItem("numOfCharacters", 1)
+            }
+        }
+        function saveNumOfMurderers() {
+            let numberValue = document.getElementById("text2").value;
+            if (numberValue > 3 || numberValue < 1) {
+                swal("Error! You can only put numbers between 1 and 3", "", "error")
+                return false;
+            }
+            localStorage.setItem("numOfMurderers", numberValue);
         }
     </script>
 </head>
@@ -36,15 +89,24 @@
         ________________________________
         <br />
     </h1>
-    <input type="number" min="1" max="10" style="position: absolute; left: 400px; width: 145px;" id="text0" value="3" oninput="validity.valid||(value='');">
+
+    <input type="number" style="position: absolute; left: 400px; width: 145px;" id="text0"
+        oninput="validity.valid||(value='');">
     <button onclick="saveTries()" style="position: absolute; left: 553px;">Save</button>
     <h3 style="position: absolute; right: 400px; top: 140px;">How many tries you get<h3>
 
-    <input type="number" min="6" max="18" style="position: absolute; left: 400px; bottom: 420px; width: 145px;" id="text1" value="12" oninput="validity.valid||(value='');">
-    <button onclick="saveNumOfCharacters()" style="position: absolute; left: 553px; bottom: 420px;">Save</button>
-    <h3 style="position: absolute; right: 400px; bottom: 400px;">How many characters you get</h3>
+            <input type="number" style="position: absolute; left: 400px; bottom: 420px; width: 145px;" id="text1"
+                oninput="validity.valid||(value='');">
+            <button onclick="saveNumOfCharacters()"
+                style="position: absolute; left: 553px; bottom: 420px;">Save</button>
+            <h3 style="position: absolute; right: 400px; bottom: 398px;">How many characters you get</h3>
 
-    <button onclick="reset()" style="position: absolute; left: 299px; top: 100px; padding: 5px;">Reset</button>
+            <input type="number" style="position: absolute; left: 400px; bottom: 385px; width: 145px;" id="text2"
+                oninput="validity.valid||(value='');">
+            <button onclick="saveNumOfMurderers()" style="position: absolute; left: 553px; bottom: 385px;">Save</button>
+            <h3 style="position: absolute; right: 400px; bottom: 365px;">How murderers there are</h3>
+
+            <button onclick="reset()" style="position: absolute; left: 299px; top: 100px; padding: 5px;">Reset</button>
 </body>
 
 </html>

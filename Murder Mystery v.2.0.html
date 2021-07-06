@@ -86,6 +86,7 @@
 
     let visibleFlags = [];
     let murdererIndex = [];
+    //let murderersPositions = [];
     let allowUserInteraction = false;
     let userTries = 3;
     let fireworks;
@@ -109,7 +110,7 @@
       }
 
       visibleFlags = [];
-      murdererIndex = [] - 1;
+      //murdererIndex = -1;
       allowUserInteraction = false;
 
       document.getElementById("hello").innerHTML = userTries;
@@ -187,10 +188,9 @@
       while (board.firstChild) {
         board.removeChild(board.firstChild)
       }
-
-      for (let i = 0; i < numOfMurderers; i++) {
-        murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
-      }
+     
+      murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
+        //murdererIndex.push(num)    
 
 
       for (let i = 0; i < numOfCards; i++) {

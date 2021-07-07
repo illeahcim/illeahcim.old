@@ -92,7 +92,8 @@
     let fireworks;
     let fireworksContainer;
     let numOfCharacters = localStorage.getItem("numOfCharacters")
-    let numOfMurderers = localStorage.getItem("numOfMurderers")
+    let CNMII = localStorage.getItem("numOfMurderers")
+    let numOfMurderers = parseInt(CNMII)
 
     function readUserSettings() {
       userTries = localStorage.getItem("numTries")
@@ -188,7 +189,7 @@
       while (board.firstChild) {
         board.removeChild(board.firstChild)
       }
-     
+      
       murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
         //murdererIndex.push(num)    
 

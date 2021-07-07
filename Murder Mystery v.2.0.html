@@ -85,22 +85,17 @@
   <script>
 
     let visibleFlags = [];
-    let murdererIndex = [];
-    //let murderersPositions = [];
-    let allowUserInteraction = false;
-    let userTries = 3;
+    let murdererIndexArray = [];
+    let murderersCatched = 0;
+    let numOfTriesLeft = 0;
+    let gameOn = false;
     let fireworks;
     let fireworksContainer;
-    let numOfCharacters = localStorage.getItem("numOfCharacters")
-    let CNMII = localStorage.getItem("numOfMurderers")
-    let numOfMurderers = parseInt(CNMII)
-
-    function readUserSettings() {
-      userTries = localStorage.getItem("numTries")
-    }
+    const numOfTries = localStorage.getItem("numTries") ? parseInt(localStorage.getItem("numTries")) : 3;
+    const numOfCharacters = localStorage.getItem("numOfCharacters") ? parseInt(localStorage.getItem("numOfCharacters")) : 12;
+    const numOfMurderers = localStorage.getItem("numOfMurderers") ? parseInt(localStorage.getItem("numOfMurderers")) : 1;
 
     function startGame() {
-      readUserSettings()
       if (fireworks)
         fireworks.stop()
 
@@ -111,17 +106,19 @@
       }
 
       visibleFlags = [];
-      //murdererIndex = -1;
-      allowUserInteraction = false;
+      murdererIndexArray = [];
+      murderersCatched = 0;
+      numOfTriesLeft = numOfTries;
+      gameOn = false;
 
-      document.getElementById("hello").innerHTML = userTries;
+      document.getElementById("hello").innerHTML = numOfTriesLeft;
 
       createCards(numOfCharacters);
 
       setTimeout(() => {
-        allowUserInteraction = true
+        gameOn = true
         flipAllCards()
-      }, 100)
+      }, 1000)
     }
 
     function flipCard(index) {
@@ -145,6 +142,11 @@
     }
 
     function YW() {
+      murderersCatched++;
+      if (murderersCatched < numOfMurderers) return;
+
+      gameOn = false;
+
       const parent = document.getElementById('parent')
       fireworksContainer = document.createElement("div")
       fireworksContainer.id = "container";
@@ -184,15 +186,22 @@
     function createCards(numOfCards) {
       const board = document.getElementById("board");
 
-      visibleFlags = []
-
       while (board.firstChild) {
         board.removeChild(board.firstChild)
       }
-      
-      murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
-        //murdererIndex.push(num)    
 
+      let numOfMurderersCreated = 0;
+      while (numOfMurderersCreated < numOfMurderers) {
+        let murdererIndex = Math.floor(Math.random() * (numOfCards - 1)) + 0;
+
+        if (murdererIndexArray.indexOf(murdererIndex) > -1) {
+          // murdererIndex has been generated before.
+          continue;
+        }
+
+        murdererIndexArray.push(murdererIndex);
+        numOfMurderersCreated++;
+      }
 
       for (let i = 0; i < numOfCards; i++) {
         const cardContainer = document.createElement("div");
@@ -211,36 +220,39 @@
         card.appendChild(cardFront);
         card.appendChild(cardBack);
 
-        if (i === murdererIndex) {
+        const murderIndex = murdererIndexArray.indexOf(i);
+
+        if (murderIndex > -1) {
           cardFront.className = "card-face murderer";
           card.onclick = function () {
+            if (!gameOn) return
 
-            if (!visibleFlags[murdererIndex] && allowUserInteraction && userTries > 0) {
-              flipCard(murdererIndex);
+            if (!visibleFlags[i] && numOfTriesLeft > 0) {
+              flipCard(i);
               setTimeout(YW, 1500);
-              userTries = -1;
+              numOfTriesLeft--;
+
+              document.getElementById("hello").innerHTML = numOfTriesLeft;
             }
           }
         }
         else {
           card.onclick = function () {
+            if (!gameOn) return
 
-
-            if (!visibleFlags[i] && allowUserInteraction && userTries > 0) {
+            if (!visibleFlags[i] && numOfTriesLeft > 0) {
               flipCard(i);
               setTimeout(() => {
                 flipCard(i);
               }, 1500);
-              userTries--;
+              numOfTriesLeft--;
+              document.getElementById("hello").innerHTML = numOfTriesLeft;
             }
-            document.getElementById("hello").innerHTML = userTries;
 
-            if (userTries === 0) {
+            if (numOfTriesLeft === 0) {
               setTimeout(YL, 1500);
-              userTries--;
+              gameOn = false;
             }
-
-
           }
         }
 

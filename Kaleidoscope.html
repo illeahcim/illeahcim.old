@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>
+        Kaleidoscope
+    </title>
+    <style>
+    </style>
+
+    <script>
+        function drawSquares() {
+            var canvas = document.getElementById('canvas');
+            var ctx = canvas.getContext('2d');
+
+            for (let i = 0; i < 10; i++) {
+                let topLeftPositionsX = Math.floor(Math.random() * 1000) + 0;
+                let topLeftPositionsY = Math.floor(Math.random() * 1000) + 0;
+
+                let randomColorR = Math.floor(Math.random() * 255) + 0;
+                let randomColorG = Math.floor(Math.random() * 255) + 0;
+                let randomColorB = Math.floor(Math.random() * 255) + 0;
+
+                ctx.fillStyle = `rgb(${randomColorR}, ${randomColorG}, ${randomColorB})`;
+                ctx.fillRect(topLeftPositionsX, topLeftPositionsY, 5, 5);
+
+            }
+        }
+
+        function clearSquares() {
+                const canvas = document.getElementById('canvas');
+                const ctx = canvas.getContext('2d');
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+        }
+
+        function repeat() {
+            setInterval(function () { drawSquares(); }, 16.7);
+            setInterval(function () { clearSquares(); }, 5000);
+        }
+    </script>
+</head>
+
+<body onload="repeat()">
+    <canvas id="canvas" width="1000" height="600"></canvas>
+</body>
+
+</html>

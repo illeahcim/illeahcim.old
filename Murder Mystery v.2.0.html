@@ -262,14 +262,18 @@
     }
 
     window.onload = () => {
-      let numOfTrials = localStorage.getItem("setTries");
+      let numOfTrials = localStorage.getItem("numTries");
       if (!numOfTrials) {
-        localStorage.setItem("setTries", "3");
+        localStorage.setItem("numTries", "3");
       }
 
-      let numCharacters = localStorage.getItem("setNumOfCharacters");
+      let numCharacters = localStorage.getItem("numOfCharacters");
       if (!numCharacters) {
-        localStorage.setItem("setNumOfCharacters", "12")
+        localStorage.setItem("numOfCharacters", "12")
+      }
+      let numMurderers= localStorage.getItem("numOfMurderers");
+      if (!numCharacters) {
+        localStorage.setItem("numOfMurderers", "1")
       }
     }
 
